@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Body.css";
+import TaskContainer from "./TaskContainer.jsx";
+import Task from "./Task.jsx";
 
 
 function Body() {
@@ -33,7 +35,7 @@ function Body() {
   function handleClick() {
     const postData = inputData;
     try {
-      const res = fetchPost("/api/tasks", {taskName: postData})
+      const res = fetchPost("/api/tasks", {name: postData})
       console.log(res)
     } catch(err) {
       console.log(err)
@@ -48,14 +50,16 @@ function Body() {
   }
 
   const tasks = data.map(task => (
-    <li key={task._id}>{task.taskName}</li>
+    <Task
+      key={task._id}
+      name={task.name}
+      hours={task.hours} />
   ))
 
   return(
     <div className="main">
-      <ul>
-        {tasks}
-      </ul>
+      <h1>Track hours</h1>
+      <TaskContainer tasks={tasks} />
       <input type="text" value={inputData} onChange={handleChange}/>
       <button onClick={handleClick}>Submit</button>
     </div>

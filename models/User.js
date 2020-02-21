@@ -1,0 +1,52 @@
+const validator = require("validator");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+UserSchema.methods.cleanUp = function() {
+  if (typeof(this.email) != "string") {this.email = "";}
+  if (typeof(this.password) != "string") {this.password = "";}
+}
+
+UserSchema.methods.validateUser = function() {
+  if (
+    // Needs user validation to make sure account doesnt exist
+      !validator.isEmail(this.email) ||
+      this.email.length < 5 ||
+      this.password === "" ||
+      this.password.length < 7
+    ) {
+    console.log("There was a User.validateUser error")
+    return false
+  } else {``
+    return true
+  }
+}
+
+UserSchema.methods.register = function() {
+  this.cleanUp();
+  const validate = this.validateUser();
+  if (validate) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+module.exports = User = mongoose.model("user", UserSchema);

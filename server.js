@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 // const sanitize = require("sanitize-html");
 const tasks = require("./routes/api/tasks");
+const users = require("./routes/api/users");
+
 
 const app = express();
 app.use(express.json());
@@ -14,6 +16,7 @@ mongoose
   .catch(err => console.log(err))
 
 app.use("/api/tasks", tasks);
+app.use("/api/users", users);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

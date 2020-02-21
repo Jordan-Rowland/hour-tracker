@@ -17,7 +17,7 @@ exports.createTask = (req, res) => {
     name: req.body.name,
     hours: req.body.hours
   });
-  newTask.save().then(task => res.json(task));
+  newTask.save().then(newTaskResponse => res.json(newTaskResponse));
 };
 
 // @router DELETE api/tasks/:id

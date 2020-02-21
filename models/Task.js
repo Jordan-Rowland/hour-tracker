@@ -15,7 +15,25 @@ const TaskSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  user_id: {
+    type: Number,
+    required: true
   }
 });
 
 module.exports = Task = mongoose.model("task", TaskSchema);
+
+
+
+/*
+
+let Task = () => {
+  this.homePlanet = "Earth";
+}
+
+let user = new User();
+User.prototype.jump = function () {...}
+module.exports = Task
+
+*/

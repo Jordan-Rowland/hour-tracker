@@ -13,19 +13,31 @@ exports.register = async (req, res) => {
     email: req.body.email,
     password: req.body.password
   });
-  const register = await newUser.register();
-  console.log(register);
-  if (register) {
-    User.findOne({ email: req.body.email }).then(user => {
-      if (user) {
-        res.json({ success: false, message: "username already exists" })
-      } else {
-        newUser.save().then(newUserResponse => {
-          res.json(newUserResponse)
-        });
-      }
-    })
-  } else {
-    res.json({ success: false, message: "could not create user" })
+  const register = newUser.register();
+  if (!register) {
+    res.json({ success: false, message: "there was a problem validating user" })
+    return
   }
-};
+  const userExists = await User.findOne({ email: req.body.email })
+  if (userExists) {
+    res.json({ success: false, message: "username already exists" })
+  } else {
+    newUser.save().then(newUserResponse => {
+      res.json(newUserResponse)
+    });
+  }
+}
+
+//     User.findOne({ email: req.body.email }).then(user => {
+//       if (user) {
+//         res.json({ success: false, message: "username already exists" })
+//       } else {
+//         newUser.save().then(newUserResponse => {
+//           res.json(newUserResponse)
+//         });
+//       }
+//     })
+//   } else {
+//     res.json({ success: false, message: "could not create user" })
+//   }
+//  };

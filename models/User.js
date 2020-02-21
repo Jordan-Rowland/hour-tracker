@@ -35,7 +35,6 @@ UserSchema.methods.validateUser = function() {
     console.log("There was a User.validateUser error")
     return false
   }
-  // Check if email already exists
   return true;
 }
 

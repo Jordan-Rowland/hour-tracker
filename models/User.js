@@ -20,13 +20,13 @@ const UserSchema = new Schema({
 });
 
 UserSchema.methods.cleanUp = function() {
-  if (typeof(this.email) != "string") {this.email = "";}
-  if (typeof(this.password) != "string") {this.password = "";}
+  if (typeof(this.email) != "string") { this.email = ""; }
+  if (typeof(this.password) != "string") { this.password = ""; }
 }
 
 UserSchema.methods.validateUser = function() {
+  this.email = this.email.toLowerCase();
   if (
-    // Needs user validation to make sure account doesnt exist
       !validator.isEmail(this.email) ||
       this.email.length < 5 ||
       this.password === "" ||
@@ -34,9 +34,9 @@ UserSchema.methods.validateUser = function() {
     ) {
     console.log("There was a User.validateUser error")
     return false
-  } else {``
-    return true
   }
+  // Check if email already exists
+  return true;
 }
 
 UserSchema.methods.register = function() {

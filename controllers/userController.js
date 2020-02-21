@@ -8,15 +8,24 @@ exports.logout = (req, res) => {
 
 };
 
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
   const newUser = new User({
     email: req.body.email,
     password: req.body.password
   });
-  const register = newUser.register();
+  const register = await newUser.register();
+  console.log(register);
   if (register) {
-    newUser.save().then(newUserResponse => {
-      res.json(newUserResponse)
-    });
+    User.findOne({ email: req.body.email }).then(user => {
+      if (user) {
+        res.json({ success: false, message: "username already exists" })
+      } else {
+        newUser.save().then(newUserResponse => {
+          res.json(newUserResponse)
+        });
+      }
+    })
+  } else {
+    res.json({ success: false, message: "could not create user" })
   }
 };

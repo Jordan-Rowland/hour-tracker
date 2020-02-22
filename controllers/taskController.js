@@ -1,30 +1,40 @@
 const Task = require("../models/Task");
+const jwt = require("jsonwebtoken");
 
-// @router GET api/tasks
-// @desc   Get all tasks
-// @access Public
+
 exports.getTasks = (req, res) => {
   Task.find()
     .sort({ date: -1 })
     .then(Tasks => res.json(Tasks));
 };
 
-// @router POST api/tasks
-// @desc   Create a task
-// @access Public
-exports.createTask = (req, res) => {
-  const newTask = new Task({
-    name: req.body.name,
-    hours: req.body.hours
-  });
-  newTask.save().then(newTaskResponse => res.json(newTaskResponse));
+exports.createTask = async (req, res) => {
+  console.log("Create task called");
+  try {
+    req.user_id = jwt.verify(req.body.token, "SECRETKEY");
+    const newTask = new Task({
+      name: req.body.name,
+      hours: req.body.hours,
+      user_id: req.user_id
+    });
+    const newTaskResponse = await newTask.save();
+    res.json(newTaskResponse);
+  } catch(err) {
+    console.log(err);
+    res.json({ success: false, message: "invalid token", error: err });
+  }
 };
 
-// @router DELETE api/tasks/:id
-// @desc   Delete a task
-// @access Public
-exports.deleteTask = (req, res) => {
-  Task.findById(req.params.id)
-    .then(task => task.remove().then(() => res.json({success: true})))
-    .catch(err => res.status(404).json({ success: false, error: err }));
+exports.deleteTask = async (req, res) => {
+  try {
+    req.user_id = jwt.verify(req.body.token, "SECRETKEY");
+    const task = await Task.findById(req.params.id)
+    if (req.user_id._id === task.user_id) {
+      await task.remove()
+      res.json({success: true})
+    }
+  } catch(err) {
+    console.log(err)
+    res.status(404).json({ success: false, error: err })
+  }
 };

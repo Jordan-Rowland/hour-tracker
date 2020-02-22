@@ -10,13 +10,13 @@ const app = express();
 app.use(express.json());
 const db = require('./config/keys').mongoURI;
 
+app.use("/api/tasks", tasks);
+app.use("/api/users", users);
+
 mongoose
   .connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => console.log("mongodb connected"))
   .catch(err => console.log(err))
-
-app.use("/api/tasks", tasks);
-app.use("/api/users", users);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

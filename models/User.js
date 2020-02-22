@@ -30,12 +30,18 @@ UserSchema.methods.validateUser = function() {
       !validator.isEmail(this.email) ||
       this.email.length < 5 ||
       this.password === "" ||
-      this.password.length < 7
+      this.password.length < 7 ||
+      this.password.length < 50
     ) {
     console.log("There was a User.validateUser error")
     return false
   }
   return true;
+}
+
+UserSchema.methods.login = function() {
+  this.cleanUp();
+  console.log("UserSchema.login called")
 }
 
 UserSchema.methods.register = function() {

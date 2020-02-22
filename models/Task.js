@@ -17,13 +17,12 @@ const TaskSchema = new Schema({
     default: Date.now
   },
   user_id: {
-    type: Number,
+    type: String,
     required: true
   }
 });
 
 module.exports = Task = mongoose.model("task", TaskSchema);
-
 
 
 /*

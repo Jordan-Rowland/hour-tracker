@@ -21,7 +21,7 @@ exports.login = async (req, res) => {
       { expiresIn: "7d" }
     ),
       success: true,
-      message: "Successfully logged in"
+      message: "successfully logged in"
     })
     console.log("successfully logged in")
     user.login();
@@ -31,8 +31,9 @@ exports.login = async (req, res) => {
   }
 };
 
+// Not sure if this works, might refactor or remove this
 exports.logout = (req, res) => {
-
+  jwt.sign({ _id: currentUser._id, iat: Math.floor(Date.now() / 1000) - 30 }, "SECRETKEY");
 };
 
 exports.register = async (req, res) => {

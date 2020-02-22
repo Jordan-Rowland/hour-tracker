@@ -1,4 +1,32 @@
 .task {
+  margin: 10px;
+  border: 10px solid rgb(53, 53, 53);
+  height: 80px;
+  display: flex;
+}
+
+.task-name-area {
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  width: 15%;
+  padding: 1%;
+}
+
+.task-name {
+  display: flex;
+  align-items: center;
+  background: rgb(191, 191, 191);
+  color: black;
   width: 100%;
-  border: 1px solid blue;
+  height: 100%;
+  padding: 5%;
+}
+
+.hours-grid {
+  border: 1px solid purple;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
 }

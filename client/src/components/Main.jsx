@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "../styles/Body.css";
+import "../styles/Main.css";
 import TaskContainer from "./TaskContainer.jsx";
 import Task from "./Task.jsx";
 
 
-function Body() {
+function Main() {
   const [data, setData] = useState([])
+  const [ token ] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTUwYWZjMjk4ZjgwMzIxMDI0MGRhM2MiLCJpYXQiOjE1ODIzNDYxOTMsImV4cCI6MTU4Mjk1MDk5M30.nAB9DRFDfnzInHtrOfci9KFxpdZ57rSyBKq-9il5Rtw")
   const [inputData, setInputData] = useState("")
 
   async function getData() {
-    const res = await fetch("/api/tasks");
+    const res = await fetch(`/api/tasks/${token}`);
     const response = await res.json();
     setData(response)
   }
@@ -22,7 +23,7 @@ function Body() {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, token: token }),
     });
     const response = await res.json();
     return response;
@@ -66,4 +67,4 @@ function Body() {
   );
 }
 
-export default Body;
+export default Main;

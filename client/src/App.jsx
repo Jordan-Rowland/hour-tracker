@@ -1,12 +1,18 @@
 import React from "react";
 // import "./styles/App.css";
-import Body from "./components/Body.jsx";
+import Main from "./components/Main.jsx";
+import Login from "./components/Login.jsx";
 
 
 function App() {
+  const tokenAcquired = true;
   return(
     <>
-      <Body />
+      {
+        !tokenAcquired ?
+        <Login /> :
+        <Main />
+      }
     </>
   );
 }

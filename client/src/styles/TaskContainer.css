@@ -2,6 +2,6 @@
   display: flex;
   width: 70%;
   margin: auto;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   flex-direction: column;
 }

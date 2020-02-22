@@ -2,5 +2,6 @@
   width: 100vw;
   height: 100vh;
   background: hsl(0, 0%, 17%);
-  color: aliceblue;
+  color: rgb(211, 214, 216);
+  padding: 20px;
 }

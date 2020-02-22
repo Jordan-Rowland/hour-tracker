@@ -1,22 +1,14 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const connectDB = require("./config/db");
 const path = require("path");
-// const sanitize = require("sanitize-html");
-const tasks = require("./routes/api/tasks");
-const users = require("./routes/api/users");
-
 
 const app = express();
 app.use(express.json());
-const db = require('./config/keys').mongoURI;
+connectDB();
 
-app.use("/api/tasks", tasks);
-app.use("/api/users", users);
-
-mongoose
-  .connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(() => console.log("mongodb connected"))
-  .catch(err => console.log(err))
+// Route imports
+app.use("/api/tasks", require("./routes/api/tasks"));
+app.use("/api/users", require("./routes/api/users"));
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === "production") {

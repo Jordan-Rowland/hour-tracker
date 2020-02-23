@@ -3,40 +3,19 @@ import "../styles/Main.css";
 import TaskContainer from "./TaskContainer.jsx";
 import Task from "./Task.jsx";
 
-
 function Main() {
-  // const [data, setData] = useState([])
-  const [ updated, setUpdated ] = useState(Date.now())
-
-  const [data, setData] = useState([{hours: 20,
-    hoursCompleted: 12,
-    _id: "5e50b6d5270fe2225ddf3c13",
-    name: "Node.js",
-    user_id: "5e50afc298f803210240da3c",
-    date: "2020-02-22T05:06:29.145Z"},
-    {hours: 20,
-    hoursCompleted: 6,
-    _id: "5e50b6cf270fe2225ddf3c12",
-    name: "Express",
-    user_id: "5e50afc298f803210240da3c",
-    date: "2020-02-22T05:06:23.749Z"},
-    {hours: 16,
-    hoursCompleted: 4,
-    _id: "5e50b2b3e8ece62224be29f5",
-    name: "JWT",
-    user_id: "5e50afc298f803210240da3c",
-    date: "2020-02-22T04:48:51.894Z"}])
+  const [data, setData] = useState([])
+  const [inputData, setInputData] = useState("")
 
   const [ token ] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTUwYWZjMjk4ZjgwMzIxMDI0MGRhM2MiLCJpYXQiOjE1ODIzNDYxOTMsImV4cCI6MTU4Mjk1MDk5M30.nAB9DRFDfnzInHtrOfci9KFxpdZ57rSyBKq-9il5Rtw")
-  const [inputData, setInputData] = useState("")
 
   async function getData() {
     const res = await fetch(`/api/tasks/${token}`);
     const response = await res.json();
-    // setData(response);
+    setData(response);
   }
 
-  async function fetchPost(url, data) {
+  async function postFetchRequest(url, data) {
     const res = await fetch(
       url, {
       method: "POST",
@@ -54,29 +33,42 @@ function Main() {
     getData();
   }, [])
 
-  function handleClick() {
+  function handleButtonClick() {
     const postData = inputData;
     try {
-      const res = fetchPost("/api/tasks", {name: postData});
+      const res = postFetchRequest("/api/tasks", {name: postData});
       console.log(res);
     } catch(err) {
       console.log(err);
     }
     setInputData("");
-    // getData();
   }
-
-  async function handleTaskClick(id) {
-    try {
+//
+  // Refactor this monstrosity
+  function handleTaskClick(clickEvent, ...clickArguments) {
+    const id = clickArguments[0];
+    let selectedHourNumber;
+    if (clickArguments.length > 1) {
+      selectedHourNumber = clickArguments[1];
+    }
+    if (clickEvent === "dispatchClick") {
+      try {
+        const updatedTasks = [...data];
+        const taskIndex = updatedTasks.findIndex(task => task._id === id);
+        const newHoursCount = updatedTasks[taskIndex].hoursCompleted + 1
+        updatedTasks[taskIndex].hoursCompleted = newHoursCount;
+        setData(updatedTasks);
+        postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount });
+      } catch(err) {
+        console.log(err)
+      }
+    } else if (clickEvent === "dispatchHandleHourClick") {
       const updatedTasks = [...data];
       const taskIndex = updatedTasks.findIndex(task => task._id === id);
-      // const res = await fetchPost(`/api/tasks/${id}`, { hoursCompleted: updatedTasks[taskIndex].hoursCompleted + 1 });
-      // console.log(res);
-      // updatedTasks[taskIndex] = { ...updatedTasks[taskIndex], hoursCompleted: updatedTasks[taskIndex].hoursCompleted + 1 };
-      setData([...updatedTasks]);
-      setUpdated(Date.now())
-    } catch(err) {
-      console.log(err)
+      const newHoursCount = selectedHourNumber - 1;
+      updatedTasks[taskIndex].hoursCompleted = newHoursCount;
+      setData(updatedTasks);
+      postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount });
     }
   }
 
@@ -102,7 +94,7 @@ function Main() {
       </header>
       <TaskContainer tasks={tasks} />
       <input type="text" value={inputData} onChange={handleChange}/>
-      <button onClick={handleClick}>Submit</button>
+      <button onClick={handleButtonClick}>Submit</button>
     </div>
   );
 }

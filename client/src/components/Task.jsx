@@ -1,45 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../styles/Task.css";
 import HourBlock from "./HourBlock.jsx";
-import { useState } from "react";
-
 
 function Task(props) {
-  const [ hoursCompleted, setHoursCompleted ] = useState(props.hoursCompleted);
-  // const [hoursCompleted, setHoursCompleted] = useState(4);
-
   let hoursArray = [];
   for (let i = 1; i <= props.hours; i++) {
     hoursArray.push(i);
   }
 
-  // useEffect(() => {
-  //   console.log("Task Effect Run")
-  // }, [hoursCompleted])
+  function dispatchHandleHourClick(selectedHourNumber) { // Line 24
+    console.log(selectedHourNumber)
+    props.onClick("dispatchHandleHourClick", props.id, selectedHourNumber);
+  }
 
   function dispatchClick() {
-    console.log("Dispatch clicked");
-    setHoursCompleted(prevState => prevState + 1);
-    console.log(hoursCompleted);
-    props.onClick(props.id);
+    props.onClick("dispatchClick", props.id);
   }
 
   const hours = hoursArray.map(hour => (
     <HourBlock
       key={hour}
       hourNumber={hour}
-      onHourClick={handleHourClick}
-      otherClasses={hour <= hoursCompleted ? "completed" : ""}
+      onHourClick={dispatchHandleHourClick} // Line 11
+      otherClasses={hour <= props.hoursCompleted ? "completed" : ""}
     />
   ));
-
-  console.log("task Rendered");
 
   return (
     <div className="task">
       <div className="task-name-area" onClick={dispatchClick} >
         <div className="task-name">
-          {hoursCompleted}
           {props.name}
         </div>
       </div>

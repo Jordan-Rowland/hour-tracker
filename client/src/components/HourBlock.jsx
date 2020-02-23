@@ -1,7 +1,5 @@
 import React from "react";
 import "../styles/HourBlock.css";
-import { useState } from "react";
-
 
 function HourBlock(props) {
 

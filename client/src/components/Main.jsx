@@ -15,6 +15,8 @@ function Main() {
     setData(response);
   }
 
+
+  // Move to helpers file
   async function postFetchRequest(url, data) {
     const res = await fetch(
       url, {
@@ -24,6 +26,20 @@ function Main() {
         'Accept': 'application/json'
       },
       body: JSON.stringify({ ...data, token: token }),
+    });
+    const response = await res.json();
+    return response;
+  }
+
+  async function deleteFetchRequest(url) {
+    const res = await fetch(
+      url, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ token: token }),
     });
     const response = await res.json();
     return response;
@@ -53,9 +69,13 @@ function Main() {
       const selectedTask = updatedTasks[taskIndex];
       const newHoursCount = selectedHourNumber || selectedTask.hoursCompleted + 1
       updatedTasks[taskIndex].hoursCompleted = newHoursCount;
-      // If hoursCompleted <= 20, delete task
+      if (selectedTask.hoursCompleted >= selectedTask.hours) {
+        delete updatedTasks[taskIndex];
+        deleteFetchRequest(`/api/tasks/${id}`);
+      } else {
+        postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount });
+      }
       setData(updatedTasks);
-      postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount });
     } catch(err) {
       console.log(err)
     }

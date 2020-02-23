@@ -4,8 +4,6 @@ const jwt = require("jsonwebtoken");
 
 exports.getTasks = async (req, res) => {
   req.user_id = jwt.verify(req.params.token, "SECRETKEY");
-  // TODO:
-  // Only fetch tasks from current user
   const tasks = await Task.find({ user_id: req.user_id }).sort({ date: -1 })
   res.json(tasks);
 };
@@ -48,7 +46,7 @@ exports.deleteTask = async (req, res) => {
     //    Not sure why that needs to be added?
     if (req.user_id._id === task.user_id) {
       await task.remove()
-      res.json({success: true})
+      res.json({ success: true })
     }
   } catch(err) {
     console.log(err)

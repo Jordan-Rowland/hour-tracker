@@ -43,32 +43,21 @@ function Main() {
     }
     setInputData("");
   }
-//
-  // Refactor this monstrosity
-  function handleTaskClick(clickEvent, ...clickArguments) {
-    const id = clickArguments[0];
-    let selectedHourNumber;
-    if (clickArguments.length > 1) {
-      selectedHourNumber = clickArguments[1];
-    }
-    if (clickEvent === "dispatchClick") {
-      try {
-        const updatedTasks = [...data];
-        const taskIndex = updatedTasks.findIndex(task => task._id === id);
-        const newHoursCount = updatedTasks[taskIndex].hoursCompleted + 1
-        updatedTasks[taskIndex].hoursCompleted = newHoursCount;
-        setData(updatedTasks);
-        postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount });
-      } catch(err) {
-        console.log(err)
-      }
-    } else if (clickEvent === "dispatchHandleHourClick") {
+
+  function handleTaskClick(...args) {
+    const id = args[0];
+    const selectedHourNumber = args.length > 1 ? args[1] : null;
+    try {
       const updatedTasks = [...data];
       const taskIndex = updatedTasks.findIndex(task => task._id === id);
-      const newHoursCount = selectedHourNumber - 1;
+      const selectedTask = updatedTasks[taskIndex];
+      const newHoursCount = selectedHourNumber || selectedTask.hoursCompleted + 1
       updatedTasks[taskIndex].hoursCompleted = newHoursCount;
+      // If hoursCompleted <= 20, delete task
       setData(updatedTasks);
       postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount });
+    } catch(err) {
+      console.log(err)
     }
   }
 

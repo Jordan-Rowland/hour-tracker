@@ -10,11 +10,11 @@ function Task(props) {
 
   function dispatchHandleHourClick(selectedHourNumber) { // Line 24
     console.log(selectedHourNumber)
-    props.onClick("dispatchHandleHourClick", props.id, selectedHourNumber);
+    props.onClick(props.id, selectedHourNumber);
   }
 
   function dispatchClick() {
-    props.onClick("dispatchClick", props.id);
+    props.onClick(props.id);
   }
 
   const hours = hoursArray.map(hour => (

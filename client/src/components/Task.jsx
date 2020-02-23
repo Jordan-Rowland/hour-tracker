@@ -9,7 +9,6 @@ function Task(props) {
   }
 
   function dispatchHandleHourClick(selectedHourNumber) { // Line 24
-    console.log(selectedHourNumber)
     props.onClick(props.id, selectedHourNumber);
   }
 

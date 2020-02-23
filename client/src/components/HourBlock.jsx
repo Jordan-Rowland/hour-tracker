@@ -4,14 +4,13 @@ import { useState } from "react";
 
 
 function HourBlock(props) {
-  const [otherClasses, setOtherClasses] = useState(props.otherClasses)
 
-  function handleClick() {
-    setOtherClasses("")
+  function dispatchHourClick() {
+    props.onHourClick(props.hourNumber)
   }
 
   return(
-    <div className={`hour-block-area ${otherClasses}`} onClick={handleClick}>
+    <div className={`hour-block-area ${props.otherClasses}`} onClick={dispatchHourClick}>
       <div className="hour">
         {props.hourNumber}
       </div>

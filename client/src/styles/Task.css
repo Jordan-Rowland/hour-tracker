@@ -24,9 +24,10 @@
 }
 
 .hours-grid {
-  border: 1px solid purple;
+  /* background-color: rgb(53, 53, 53); */
+  /* border: 1px solid purple; */
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: stretch;
 }

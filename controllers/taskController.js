@@ -16,13 +16,26 @@ exports.createTask = async (req, res) => {
     const newTask = new Task({
       name: req.body.name,
       hours: req.body.hours,
-      user_id: req.user_id
+      user_id: req.user_id,
+      hoursCompleted: req.hoursCompleted
     });
     const newTaskResponse = await newTask.save();
     res.json(newTaskResponse);
   } catch(err) {
     console.log(err);
     res.json({ success: false, message: "invalid token", error: err });
+  }
+};
+
+exports.updateTask = async (req, res) => {
+  try {
+    req.user_id = jwt.verify(req.body.token, "SECRETKEY");
+    const task = await Task.findById(req.params.id);
+    task.hoursCompleted = req.body.hoursCompleted;
+    const newTaskResponse = await task.save();
+    res.json(newTaskResponse);
+  } catch(err) {
+    console.log(err);
   }
 };
 

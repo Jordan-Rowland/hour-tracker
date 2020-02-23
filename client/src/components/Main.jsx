@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/Main.css";
 import TaskContainer from "./TaskContainer.jsx";
 import Task from "./Task.jsx";
+import AddTask from "./AddTask.jsx";
 import { postFetchRequest, deleteFetchRequest } from "../helpers";
 
 function Main() {
@@ -20,16 +21,8 @@ function Main() {
     getData(token);
   }, [])
 
-  async function handleButtonClick() {
-    const postData = inputData;
-    try {
-      const res = await postFetchRequest("/api/tasks", {name: postData}, token);
-      console.log(res);
-    } catch(err) {
-      console.log(err);
-    }
-    setInputData("");
-    getData(token);
+  function handleButtonClick(res) {
+    setData(prevState => [res, ...prevState]);
   }
 
   function handleTaskClick(...args) {
@@ -53,10 +46,6 @@ function Main() {
     }
   }
 
-  function handleChange(e) {
-    setInputData(e.target.value)
-  }
-
   const tasks = data.map(task => (
     <Task
       key={task._id}
@@ -74,8 +63,7 @@ function Main() {
         <span>Track hours</span>
       </header>
       <TaskContainer tasks={tasks} />
-      <input type="text" value={inputData} onChange={handleChange}/>
-      <button onClick={handleButtonClick}>Submit</button>
+      <AddTask token={token} onClick={handleButtonClick} />
     </div>
   );
 }

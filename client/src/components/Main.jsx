@@ -7,7 +7,6 @@ import { postFetchRequest, deleteFetchRequest } from "../helpers";
 
 function Main() {
   const [data, setData] = useState([])
-  const [inputData, setInputData] = useState("")
 
   const [ token ] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTUwYWZjMjk4ZjgwMzIxMDI0MGRhM2MiLCJpYXQiOjE1ODIzNDYxOTMsImV4cCI6MTU4Mjk1MDk5M30.nAB9DRFDfnzInHtrOfci9KFxpdZ57rSyBKq-9il5Rtw")
 
@@ -19,7 +18,7 @@ function Main() {
 
   useEffect(() => {
     getData(token);
-  }, [])
+  }, [token]);
 
   function handleButtonClick(res) {
     setData(prevState => [res, ...prevState]);

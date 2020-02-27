@@ -21,9 +21,14 @@ const TaskSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  user_id: {
+  color: {
     type: String,
     required: true
+  },
+  user_id: {
+    type: String,
+    required: true,
+    default: 'grey'
   }
 });
 

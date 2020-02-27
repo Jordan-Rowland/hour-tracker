@@ -25,24 +25,44 @@ function Main() {
   }
 
   function handleTaskClick(...args) {
+    console.log(args)
     const id = args[0];
+
+    let updatedTasks = [...data];
+    const taskIndex = updatedTasks.findIndex(task => task._id === id);
+    const selectedTask = updatedTasks[taskIndex];
     const selectedHourNumber = args.length > 1 ? args[1] : null;
+
     try {
-      let updatedTasks = [...data];
-      const taskIndex = updatedTasks.findIndex(task => task._id === id);
-      const selectedTask = updatedTasks[taskIndex];
       const newHoursCount = selectedHourNumber || selectedTask.hoursCompleted + 1
       updatedTasks[taskIndex].hoursCompleted = newHoursCount;
       if (selectedTask.hoursCompleted >= selectedTask.hours) {
         updatedTasks = updatedTasks.filter(task => task._id !== id);
         deleteFetchRequest(`/api/tasks/${id}`, token);
       } else {
-        postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: newHoursCount }, token);
+        postFetchRequest(
+          `/api/tasks/${id}`,
+          {
+            hoursCompleted: newHoursCount,
+            color: selectedTask.color
+          },
+          token
+        );
       }
       setData(updatedTasks);
     } catch(err) {
       console.log(err)
     }
+  }
+
+  async function handleColorSelect(...args) {
+    const id = args[0]
+    let updatedTasks = [...data];
+    const taskIndex = updatedTasks.findIndex(task => task._id === id);
+    const color = args[1]
+    updatedTasks[taskIndex].color = color
+    setData(updatedTasks);
+    postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: 2, color: color }, token);
   }
 
   const tasks = data.map(task => (
@@ -53,6 +73,8 @@ function Main() {
       hours={task.hours}
       hoursCompleted={task.hoursCompleted}
       onClick={handleTaskClick}
+      color={task.color}
+      onColorSelected={handleColorSelect}
     />
   ))
 

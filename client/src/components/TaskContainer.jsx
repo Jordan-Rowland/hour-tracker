@@ -4,8 +4,6 @@ import "../styles/TaskContainer.css";
 
 
 function TaskContainer(props) {
-
-
   return(
     <div className="task-container">
       {props.tasks}

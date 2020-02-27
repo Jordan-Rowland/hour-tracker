@@ -15,7 +15,8 @@ exports.createTask = async (req, res) => {
       name: req.body.name,
       hours: req.body.hours,
       user_id: req.user_id,
-      hoursCompleted: req.hoursCompleted
+      hoursCompleted: req.hoursCompleted,
+      color: "grey"
     });
     const newTaskResponse = await newTask.save();
     res.json(newTaskResponse);
@@ -30,6 +31,7 @@ exports.updateTask = async (req, res) => {
     req.user_id = jwt.verify(req.body.token, "SECRETKEY");
     const task = await Task.findById(req.params.id);
     task.hoursCompleted = req.body.hoursCompleted;
+    task.color = req.body.color;
     const newTaskResponse = await task.save();
     res.json(newTaskResponse);
   } catch(err) {

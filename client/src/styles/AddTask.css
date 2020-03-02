@@ -31,14 +31,12 @@ input {
 
 input[type=number] {
   flex: 1 1 0;
-  /* max-width: 10px; */
 }
 
 button {
   flex: 1 0 10%;
   padding: 0 0.6rem;
   margin: 10px;
-
   font-size: 1rem;
   border-radius: 1.5px;
   height: 30px;

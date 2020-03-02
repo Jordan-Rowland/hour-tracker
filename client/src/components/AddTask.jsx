@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/AddTask.css";
 import useInput from "../hooks/useInput";
 import { postFetchRequest } from "../helpers";
@@ -7,18 +7,27 @@ import { postFetchRequest } from "../helpers";
 function AddTask(props) {
   const [ taskInput, handleTaskInputChange, setTodoInput ] = useInput("");
   const [ hoursInput, handleHoursInputChange, setHoursInput ] = useInput(20);
+  const [ errorMessage, setErrorMessage ] = useState("");
 
   async function dispatchHandleButtonClick() {
-    // Add validation for a note
-    const postData = taskInput;
-    try {
-      const res = await postFetchRequest("/api/tasks", {name: postData, hours: hoursInput}, props.token);
-      props.onClick(res)
-    } catch(err) {
-      console.log(err);
+    if (taskInput.length && hoursInput > 0 && hoursInput <= 20) {
+      const postData = taskInput;
+      try {
+        const res = await postFetchRequest("/api/tasks", {name: postData, hours: hoursInput}, props.token);
+        props.onClick(res)
+      } catch(err) {
+        console.log(err);
+      }
+      setTodoInput("");
+      setHoursInput(20);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Could not validate task. Please make sure the task has a name and between 1-20 hours");
     }
-    setTodoInput("");
-    setHoursInput(20);
+  }
+
+  function dismissErrors() {
+    setErrorMessage("");
   }
 
   return(
@@ -26,6 +35,12 @@ function AddTask(props) {
       <div className="header">
         <h2>Add a new task</h2>
       </div>
+      {
+        errorMessage &&
+        <div className="errors">
+        <p onClick={dismissErrors}>{errorMessage}</p>
+        </div>
+      }
       <input type="text"
         value={taskInput}
         onChange={handleTaskInputChange}

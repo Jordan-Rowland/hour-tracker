@@ -33,11 +33,20 @@ function App() {
     setTokenAcquired(true);
   }
 
+  function handleLogout() {
+    setToken("");
+    localStorage.clear();
+    setTokenAcquired(false);
+  }
+
   return(
     <>
       {
         tokenAcquired ?
-        <Main token={token} /> :
+        <>
+          <Main token={token} />
+          <button onClick={handleLogout}>Logout</button>
+        </> :
         <Login onLogin={handleLogin} />
       }
     </>

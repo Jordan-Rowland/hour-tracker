@@ -17,18 +17,16 @@ exports.login = async (req, res) => {
     { token:
       // jwt.sign creates and stores data in the token
       jwt.sign(
-      { _id: currentUser._id },
-      "SECRETKEY",
-      { expiresIn: "7d" }
-    ),
+        { _id: currentUser._id },
+        "SECRETKEY",
+        { expiresIn: "7d" }
+      ),
       success: true,
       message: "successfully logged in"
     })
-    console.log("successfully logged in")
     user.login();
   } else {
     res.json({ success: false, message: "invalid username / password" })
-    console.log("invalid username / password")
   }
 };
 
@@ -44,7 +42,7 @@ exports.register = async (req, res) => {
   });
   const register = newUser.register();
   if (!register) {
-    res.json({ success: false, message: "there was a problem validating user" })
+    res.json({ success: false, message: "there was a problem validating user. please make sure you enter a valid username" })
     return
   }
   const userExists = await User.findOne({ email: req.body.email })
@@ -54,10 +52,20 @@ exports.register = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     newUser.password = bcrypt.hashSync(newUser.password, salt)
     newUser.save().then(newUserResponse => {
-      res.json(newUserResponse);
-    });
+      res.json({ token:
+        jwt.sign(
+          { _id: newUserResponse._id },
+          "SECRETKEY",
+          { expiresIn: "7d" }
+        ),
+        success: true,
+        message: "successfully logged in",
+        ...newUserResponse
+      });
+    })
   }
 }
+
 
 exports.verify = async (req, res) => {
   const token = req.body.token

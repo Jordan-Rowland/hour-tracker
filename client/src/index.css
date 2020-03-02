@@ -8,3 +8,11 @@
 body {
   background: hsl(0, 0%, 17%);
 }
+
+.errors {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: hsl(0, 75%, 65%);
+  margin: 1rem;
+}

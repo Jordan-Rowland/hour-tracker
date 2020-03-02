@@ -10,7 +10,7 @@ function useStorage(key) {
     if (typeof items === "object") {
       items = items.join("|");
     }
-    if (items.length) {
+    if (items && items.length) {
       localStorage.setItem(key, items);
     }
   }

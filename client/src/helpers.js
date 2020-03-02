@@ -1,4 +1,4 @@
-export async function postFetchRequest(url, data, token) {
+export async function postFetchRequest(url, data, token=null) {
   const res = await fetch(
     url, {
     method: "POST",

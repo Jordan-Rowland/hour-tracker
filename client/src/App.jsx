@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 // import "./styles/App.css";
 import Main from "./components/Main.jsx";
 import Login from "./components/Login.jsx";
 
 
 function App() {
-  const tokenAcquired = true;
+  const [ token, setToken ] = useState("")
+  const [ tokenAcquired, setTokenAcquired ] = useState(false)
+
+  // function checkToken() {
+  // }
+
+  function handleLogin(e) {
+    setToken(e)
+    setTokenAcquired(true);
+  }
+
   return(
     <>
       {
         !tokenAcquired ?
-        <Login /> :
-        <Main />
+        <Login
+          onLogin={handleLogin}
+        /> :
+        <Main token={token}/>
       }
     </>
   );

@@ -19,8 +19,6 @@
 .task-name {
   display: flex;
   align-items: center;
-  /* background: rgb(191, 191, 191); */
-  /* background: rgb(255, 232, 54); */
   color: black;
   width: 100%;
   padding: 1rem;
@@ -38,4 +36,5 @@
 .icon {
   position: absolute;
   right: 25px;
+  cursor: pointer;
 }

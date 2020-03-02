@@ -5,20 +5,18 @@ import Task from "./Task.jsx";
 import AddTask from "./AddTask.jsx";
 import { postFetchRequest, deleteFetchRequest } from "../helpers";
 
-function Main() {
+function Main(props) {
   const [data, setData] = useState([])
 
-  const [ token ] = useState("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTUwYWZjMjk4ZjgwMzIxMDI0MGRhM2MiLCJpYXQiOjE1ODIzNDYxOTMsImV4cCI6MTU4Mjk1MDk5M30.nAB9DRFDfnzInHtrOfci9KFxpdZ57rSyBKq-9il5Rtw")
-
   async function getData(token) {
-    const res = await fetch(`/api/tasks/${token}`);
+    const res = await fetch(`/api/tasks/${props.token}`);
     const response = await res.json();
     setData(response);
   }
 
   useEffect(() => {
-    getData(token);
-  }, [token]);
+    getData(props.token);
+  }, [props.token]);
 
   function handleButtonClick(res) {
     setData(prevState => [res, ...prevState]);
@@ -38,7 +36,7 @@ function Main() {
       updatedTasks[taskIndex].hoursCompleted = newHoursCount;
       if (selectedTask.hoursCompleted >= selectedTask.hours) {
         updatedTasks = updatedTasks.filter(task => task._id !== id);
-        deleteFetchRequest(`/api/tasks/${id}`, token);
+        deleteFetchRequest(`/api/tasks/${id}`, props.token);
       } else {
         postFetchRequest(
           `/api/tasks/${id}`,
@@ -46,7 +44,7 @@ function Main() {
             hoursCompleted: newHoursCount,
             color: selectedTask.color
           },
-          token
+          props.token
         );
       }
       setData(updatedTasks);
@@ -62,7 +60,7 @@ function Main() {
     const color = args[1]
     updatedTasks[taskIndex].color = color
     setData(updatedTasks);
-    postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: 2, color: color }, token);
+    postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: 2, color: color }, props.token);
   }
 
   const tasks = data.map(task => (
@@ -84,7 +82,7 @@ function Main() {
         <span>Track hours</span>
       </header>
       <TaskContainer tasks={tasks} />
-      <AddTask token={token} onClick={handleButtonClick} />
+      <AddTask token={props.token} onClick={handleButtonClick} />
     </div>
   );
 }

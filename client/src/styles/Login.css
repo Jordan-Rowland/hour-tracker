@@ -1,0 +1,27 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: aliceblue;
+}
+
+.login-form h1 {
+  margin: 2rem;
+}
+
+label {
+  font-weight: 800;
+}
+
+input[type=text],
+input[type=password] {
+  margin-bottom: 2rem;
+  width: 20rem;
+}
+
+.controls {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

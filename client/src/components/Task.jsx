@@ -31,20 +31,15 @@ function Task(props) {
     hoursArray.push(i);
   }
 
-  function dispatchHandleHourClick(selectedHourNumber) { // Line 24
+  function hourClick(selectedHourNumber) { // Line 56
     props.onClick(props.id, selectedHourNumber);
   }
 
-  function dispatchClick(e) {
-    const innerText = e.target.textContent;
-    if (innerText.toLowerCase() !== "x") {
+  function handleClick(e) {
+    const iconClass = e.target.className
+    if (iconClass !== "fas fa-palette") {
       props.onClick(props.id);
-    }
-  }
-
-  function dispatchHandleColor(e) {
-    // Click the X to drop down color thing
-    if (e.target.textContent.toLowerCase() === "x") {
+    } else if (iconClass === "fas fa-palette") {
       setColorMenu(true);
     }
   }
@@ -58,22 +53,18 @@ function Task(props) {
     <HourBlock
       key={hour}
       hourNumber={hour}
-      onHourClick={dispatchHandleHourClick} // Line 11
+      onHourClick={hourClick} // Line 34
       otherClasses={hour <= props.hoursCompleted ? "completed" : ""}
     />
   ));
 
   return (
     <div className="task">
-      <div className="task-name-area" onClick={dispatchClick} >
+      <div className="task-name-area" onClick={handleClick} >
         <div className="task-name" style={{backgroundColor: colors[props.color]}} >
           {props.name}
-          <span
-          // This should be an icon
-            onClick={dispatchHandleColor}
-            className="icon"
-          >
-            X
+          <span className="icon">
+            <i className="fas fa-palette"></i>
           </span>
         </div>
       </div>

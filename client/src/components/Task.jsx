@@ -13,7 +13,7 @@ function Task(props) {
     if (color !== props.color) {
       setColor(props.color);
     }
-  }, [color]);
+  }, [props.color, color]);
 
   const colors = {
     items: ["grey", "red", "green", "aqua", "skyblue", "lavender", "yellow"],

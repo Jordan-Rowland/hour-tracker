@@ -11,7 +11,8 @@ exports.login = async (req, res) => {
         currentUser.password
       )
     ) {
-    // EDIT THE JWT KEY
+    // TODO:
+    // EDIT THE JWT KEY EVERYWHERE "SECRETKEY" IS USED
     res.json(
     { token:
       // jwt.sign creates and stores data in the token
@@ -55,5 +56,15 @@ exports.register = async (req, res) => {
     newUser.save().then(newUserResponse => {
       res.json(newUserResponse);
     });
+  }
+}
+
+exports.verify = async (req, res) => {
+  const token = req.body.token
+  const verified = jwt.verify(token, "SECRETKEY")
+  if (verified) {
+    res.json({ success: true, message: "token verified" })
+  } else {
+    res.json({ success: false, message: "could not verify token" })
   }
 }

@@ -8,13 +8,14 @@ import { postFetchRequest, deleteFetchRequest } from "../helpers";
 function Main(props) {
   const [data, setData] = useState([])
 
-  async function getData(token) {
-    const res = await fetch(`/api/tasks/${props.token}`);
-    const response = await res.json();
-    setData(response);
-  }
 
   useEffect(() => {
+    async function getData(token) {
+      const res = await fetch(`/api/tasks/${props.token}`);
+      const response = await res.json();
+      setData(response);
+    }
+
     getData(props.token);
   }, [props.token]);
 

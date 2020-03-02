@@ -1,29 +1,44 @@
-import React, { useState } from "react";
-// import "./styles/App.css";
+import React, { useEffect, useState } from "react";
 import Main from "./components/Main.jsx";
 import Login from "./components/Login.jsx";
+import useStorage from "./hooks/useStorage"
+import { postFetchRequest } from "./helpers";
 
 
 function App() {
-  const [ token, setToken ] = useState("")
-  const [ tokenAcquired, setTokenAcquired ] = useState(false)
+  const [ token, setToken ] = useState("");
+  const [ tokenAcquired, setTokenAcquired ] = useState(false);
+  const [ tokenStorage, setTokenStorage] = useStorage("token");
 
-  // function checkToken() {
-  // }
+  useEffect(() => {
+    async function checkToken() {
+      if (tokenStorage().length) {
+        console.log("Token in storage");
+        const tokenStored = tokenStorage()[0];
+        const response = await postFetchRequest("/api/users/verify", {}, tokenStored);
+        console.log(response);
+        if (response.success) {
+          handleLogin(tokenStored);
+        }
+      }
+    }
+
+    checkToken();
+  }, [])
 
   function handleLogin(e) {
-    setToken(e)
+    const newToken = e;
+    setToken(newToken);
+    setTokenStorage(newToken)
     setTokenAcquired(true);
   }
 
   return(
     <>
       {
-        !tokenAcquired ?
-        <Login
-          onLogin={handleLogin}
-        /> :
-        <Main token={token}/>
+        tokenAcquired ?
+        <Main token={token} /> :
+        <Login onLogin={handleLogin} />
       }
     </>
   );

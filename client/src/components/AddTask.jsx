@@ -5,10 +5,11 @@ import { postFetchRequest } from "../helpers";
 
 
 function AddTask(props) {
-  const [ taskInput, setTodoInput, handleTaskInputChange ] = useInput("");
-  const [ hoursInput, setHoursInput, handleHoursInputChange ] = useInput(20);
+  const [ taskInput, handleTaskInputChange, setTodoInput ] = useInput("");
+  const [ hoursInput, handleHoursInputChange, setHoursInput ] = useInput(20);
 
   async function dispatchHandleButtonClick() {
+    // Add validation for a note
     const postData = taskInput;
     try {
       const res = await postFetchRequest("/api/tasks", {name: postData, hours: hoursInput}, props.token);

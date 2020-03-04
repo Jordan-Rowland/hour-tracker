@@ -20,7 +20,7 @@ function Header(props) {
       <i className="fas fa-poll-h"></i>
       <div className="links">
         <ul>
-          <li onClick={showModal}>Info</li>
+          <li onClick={showModal}>About</li>
           { props.loggedIn && <li onClick={handleClick}>Logout</li> }
         </ul>
       </div>

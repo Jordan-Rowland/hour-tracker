@@ -14,12 +14,10 @@
 
 .info-modal {
   position: absolute;
-  width: 600px;
-  height: 450px;
-  /* background: aqua; */
+  max-width: 600px;
   background: hsl(0, 0%, 15%);
   color: aliceblue;
-  z-index: 1;
+  z-index: 7;
   padding: 1.5rem;
 }
 
@@ -35,6 +33,11 @@
 
 hr {
   border: 1px solid hsl(0, 0%, 49%);
-  margin-top: 0.3rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.info-modal p {
+  margin-bottom: 2rem;
+  line-height: 1.6rem;
 }

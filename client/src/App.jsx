@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Main from "./components/Main.jsx";
 import Login from "./components/Login.jsx";
+import Header from "./components/Header.jsx";
 import useStorage from "./hooks/useStorage"
 import { postFetchRequest } from "./helpers";
 
@@ -41,11 +42,14 @@ function App() {
 
   return(
     <>
+    <Header
+      loggedIn={tokenAcquired}
+      onLogout={handleLogout}
+    />
       {
         tokenAcquired ?
         <>
           <Main token={token} />
-          <button onClick={handleLogout}>Logout</button>
         </> :
         <Login onLogin={handleLogin} />
       }

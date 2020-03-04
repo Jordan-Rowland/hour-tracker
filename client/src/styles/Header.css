@@ -1,0 +1,26 @@
+.header-nav {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  background: hsl(0, 0%, 15%);
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  color: aliceblue;
+}
+
+.fa-poll-h {
+  font-size: 32px;
+}
+
+.links {
+  justify-content: space-between;
+  display: flex;
+}
+
+.links li {
+  margin-left: 35px;
+  display: inline;
+  list-style: none;
+  cursor: pointer;
+}

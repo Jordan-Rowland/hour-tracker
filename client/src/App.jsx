@@ -42,12 +42,14 @@ function App() {
 
   return(
     <>
-    <Header loggedIn={tokenAcquired} />
+    <Header
+      loggedIn={tokenAcquired}
+      onLogout={handleLogout}
+    />
       {
         tokenAcquired ?
         <>
           <Main token={token} />
-          <button onClick={handleLogout}>Logout</button>
         </> :
         <Login onLogin={handleLogin} />
       }

@@ -1,4 +1,4 @@
-.header {
+.header-nav {
   height: 50px;
   width: 100%;
   display: flex;
@@ -14,7 +14,6 @@
 }
 
 .links {
-  /* width: 50px; */
   justify-content: space-between;
   display: flex;
 }
@@ -23,4 +22,5 @@
   margin-left: 35px;
   display: inline;
   list-style: none;
+  cursor: pointer;
 }

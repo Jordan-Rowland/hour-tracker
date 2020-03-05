@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Main from "./components/Main.jsx";
 import Login from "./components/Login.jsx";
 import Header from "./components/Header.jsx";
+import LoadingSpinner from "./components/LoadingSpinner.jsx";
 import useStorage from "./hooks/useStorage"
 import { postFetchRequest } from "./helpers";
 
 
 function App() {
   const [ token, setToken ] = useState("");
-  const [ tokenAcquired, setTokenAcquired ] = useState(false);
+  const [ tokenAcquired, setTokenAcquired ] = useState(null);
   const [ tokenStorage, setTokenStorage] = useStorage("token");
 
   useEffect(() => {
@@ -21,6 +22,8 @@ function App() {
         if (response.success) {
           handleLogin(tokenStored);
         }
+      } else {
+        setTokenAcquired(false);
       }
     }
 
@@ -46,13 +49,9 @@ function App() {
       loggedIn={tokenAcquired}
       onLogout={handleLogout}
     />
-      {
-        tokenAcquired ?
-        <>
-          <Main token={token} />
-        </> :
-        <Login onLogin={handleLogin} />
-      }
+      { tokenAcquired && <Main token={token} /> }
+      { tokenAcquired === false && <Login onLogin={handleLogin} /> }
+      { tokenAcquired === null && <LoadingSpinner /> }
     </>
   );
 }

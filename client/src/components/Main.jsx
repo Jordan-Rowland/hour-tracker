@@ -3,6 +3,7 @@ import "../styles/Main.css";
 import TaskContainer from "./TaskContainer.jsx";
 import Task from "./Task.jsx";
 import AddTask from "./AddTask.jsx";
+import LoadingSpinner from "./LoadingSpinner.jsx";
 import { postFetchRequest, deleteFetchRequest } from "../helpers";
 
 function Main(props) {
@@ -20,7 +21,7 @@ function Main(props) {
   }, [props.token]);
 
   function handleButtonClick(res) {
-    setData(prevState => [res, ...prevState]);
+    setData(prevState => [...prevState, res]);
   }
 
   function handleTaskClick(...args) {
@@ -82,8 +83,13 @@ function Main(props) {
       <header>
         <span>Track hours</span>
       </header>
-      <TaskContainer tasks={tasks} />
-      <AddTask token={props.token} onClick={handleButtonClick} />
+      {
+      !data.length ? <LoadingSpinner /> :
+      <>
+        <TaskContainer tasks={tasks} />
+        <AddTask token={props.token} onClick={handleButtonClick} />
+      </>
+      }
     </div>
   );
 }

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 exports.getTasks = async (req, res) => {
   req.user_id = jwt.verify(req.params.token, "SECRETKEY");
-  const tasks = await Task.find({ user_id: req.user_id }).sort({ date: -1 })
+  const tasks = await Task.find({ user_id: req.user_id }).sort({ date: 1 })
   res.json(tasks);
 };
 

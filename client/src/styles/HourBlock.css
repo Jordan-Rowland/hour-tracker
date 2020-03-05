@@ -2,10 +2,10 @@
   display: flex;
   justify-self: center;
   align-items: center;
-  /* max-width: 5%; */
   min-width: 5%;
   border: 5px solid hsl(0, 0%, 21%);
   box-shadow: inset 1px 2px 2px #262626;
+  flex: 1 1 10%;
 }
 
 .hour {
@@ -20,6 +20,5 @@
 @media (max-width: 30rem) {
   .hour-block-area {
     min-width: 20%;
-    flex: 1 1 20%;
   }
 }

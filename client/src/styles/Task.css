@@ -40,3 +40,11 @@
   color: #262626;
   font-size: 18px;
 }
+
+@media (max-width: 30rem) {
+  .hours-grid {
+    height: 220px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+}

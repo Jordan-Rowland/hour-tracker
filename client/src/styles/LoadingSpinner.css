@@ -1,7 +1,12 @@
+.loader {
+  display: flex;
+  justify-content: center;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;
-  left: 47.5%;
+  /* left: 47.5%; */
   width: 80px;
   height: 80px;
 }

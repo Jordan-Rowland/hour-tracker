@@ -83,13 +83,13 @@ function Main(props) {
       <header>
         <span>Track hours</span>
       </header>
-      {
-      !data.length ? <LoadingSpinner /> :
-      <>
+      {/* { */}
+      {/* // !data.length ? <LoadingSpinner /> : */}
+      {/* <> */}
         <TaskContainer tasks={tasks} />
-        <AddTask token={props.token} onClick={handleButtonClick} />
-      </>
-      }
+      {/* </> */}
+      {/* // } */}
+      <AddTask token={props.token} onClick={handleButtonClick} />
     </div>
   );
 }

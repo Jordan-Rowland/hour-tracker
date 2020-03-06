@@ -31,7 +31,9 @@ function Main(props) {
     let updatedTasks = [...data];
     const taskIndex = updatedTasks.findIndex(task => task._id === id);
     const selectedTask = updatedTasks[taskIndex];
+    console.log("handleTaskClick");
     const selectedHourNumber = args.length > 1 ? args[1] : null;
+    console.log(selectedHourNumber)
 
     try {
       const newHoursCount = selectedHourNumber || selectedTask.hoursCompleted + 1
@@ -62,7 +64,14 @@ function Main(props) {
     const color = args[1]
     updatedTasks[taskIndex].color = color
     setData(updatedTasks);
-    postFetchRequest(`/api/tasks/${id}`, { hoursCompleted: 2, color: color }, props.token);
+    postFetchRequest(
+      `/api/tasks/${id}`,
+      {
+        hoursCompleted: updatedTasks[taskIndex].hoursCompleted,
+        color: color
+      },
+      props.token
+    );
   }
 
   const tasks = data.map(task => (
@@ -83,12 +92,7 @@ function Main(props) {
       <header>
         <span>Track hours</span>
       </header>
-      {/* { */}
-      {/* // !data.length ? <LoadingSpinner /> : */}
-      {/* <> */}
-        <TaskContainer tasks={tasks} />
-      {/* </> */}
-      {/* // } */}
+      <TaskContainer tasks={tasks} />
       <AddTask token={props.token} onClick={handleButtonClick} />
     </div>
   );

@@ -3,14 +3,14 @@ const jwt = require("jsonwebtoken");
 
 
 exports.getTasks = async (req, res) => {
-  req.user_id = jwt.verify(req.params.token, "SECRETKEY");
+  req.user_id = jwt.verify(req.params.token, process.env.JWTSECRET);
   const tasks = await Task.find({ user_id: req.user_id }).sort({ date: 1 })
   res.json(tasks);
 };
 
 exports.createTask = async (req, res) => {
   try {
-    req.user_id = jwt.verify(req.body.token, "SECRETKEY");
+    req.user_id = jwt.verify(req.body.token, process.env.JWTSECRET);
     const newTask = new Task({
       name: req.body.name,
       hours: req.body.hours,
@@ -28,7 +28,7 @@ exports.createTask = async (req, res) => {
 
 exports.updateTask = async (req, res) => {
   try {
-    req.user_id = jwt.verify(req.body.token, "SECRETKEY");
+    req.user_id = jwt.verify(req.body.token, process.env.JWTSECRET);
     const task = await Task.findById(req.params.id);
     task.hoursCompleted = req.body.hoursCompleted;
     task.color = req.body.color;
@@ -41,11 +41,8 @@ exports.updateTask = async (req, res) => {
 
 exports.deleteTask = async (req, res) => {
   try {
-    req.user_id = jwt.verify(req.body.token, "SECRETKEY");
+    req.user_id = jwt.verify(req.body.token, process.env.JWTSECRET);
     const task = await Task.findById(req.params.id)
-    // TODO:
-    // Try to remove the '._id' form the below.
-    //    Not sure why that needs to be added?
     if (req.user_id._id === task.user_id) {
       await task.remove()
       res.json({ success: true })

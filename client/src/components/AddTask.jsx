@@ -51,7 +51,7 @@ function AddTask(props) {
         onChange={handleHoursInputChange}
         placeholder="hours - default 20"
       />
-      <button onClick={dispatchHandleButtonClick}>Submit</button>
+      <button className="add-task-button" onClick={dispatchHandleButtonClick}>Submit</button>
     </div>
   );
 }

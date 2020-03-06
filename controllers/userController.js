@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.login = async (req, res) => {
   const user = new User(req.body);
@@ -11,14 +12,12 @@ exports.login = async (req, res) => {
         currentUser.password
       )
     ) {
-    // TODO:
-    // EDIT THE JWT KEY EVERYWHERE "SECRETKEY" IS USED
     res.json(
     { token:
       // jwt.sign creates and stores data in the token
       jwt.sign(
         { _id: currentUser._id },
-        "SECRETKEY",
+        process.env.JWTSECRET,
         { expiresIn: "7d" }
       ),
       success: true,
@@ -30,9 +29,8 @@ exports.login = async (req, res) => {
   }
 };
 
-// Not sure if this works, might refactor or remove this
 exports.logout = (req, res) => {
-  jwt.sign({ _id: currentUser._id, iat: Math.floor(Date.now() / 1000) - 30 }, "SECRETKEY");
+  jwt.sign({ _id: currentUser._id, iat: Math.floor(Date.now() / 1000) - 30 }, process.env.JWTSECRET);
 };
 
 exports.register = async (req, res) => {
@@ -55,7 +53,7 @@ exports.register = async (req, res) => {
       res.json({ token:
         jwt.sign(
           { _id: newUserResponse._id },
-          "SECRETKEY",
+          process.env.JWTSECRET,
           { expiresIn: "7d" }
         ),
         success: true,
@@ -69,7 +67,7 @@ exports.register = async (req, res) => {
 
 exports.verify = async (req, res) => {
   const token = req.body.token
-  const verified = jwt.verify(token, "SECRETKEY")
+  const verified = jwt.verify(token, process.env.JWTSECRET)
   if (verified) {
     res.json({ success: true, message: "token verified" })
   } else {

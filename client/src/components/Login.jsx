@@ -13,9 +13,6 @@ function Login(props) {
   const [ confirmPasswordInput, handleConfirmPasswordInput ] = useInput();
   const [ errorMessage, setErrorMessage ] = useState("");
 
-  // TODO:
-  // Add visible errors for user
-
   async function handleButtonClick(e) {
     e.preventDefault();
     if (signUp) {
@@ -69,9 +66,11 @@ function Login(props) {
           </>
         }
         <div className="controls">
-          Sign-Up
-          <input value={signUp} onChange={handleCheck} type="checkbox"/>
-          <button
+          <div className="sign-in-check">
+            Sign-Up
+            <input value={signUp} onChange={handleCheck} type="checkbox"/>
+          </div>
+          <button className="login-button"
             onClick={handleButtonClick}>
               {signUp ? "Sign Up" : "Login"}
           </button>

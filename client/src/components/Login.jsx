@@ -55,7 +55,7 @@ function Login(props) {
         }
         <label>Email</label>
         {/* Change this to email type */}
-        <input autoComplete="off" type="text" value={emailInput} onChange={handleEmailInput} />
+        <input autoComplete="off" type="email" value={emailInput} onChange={handleEmailInput} />
         <label>Password</label>
         <input autoComplete="off" type="password" value={passwordInput} onChange={handlePasswordInput} />
         {

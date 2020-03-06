@@ -30,8 +30,8 @@ exports.updateTask = async (req, res) => {
   try {
     req.user_id = jwt.verify(req.body.token, process.env.JWTSECRET);
     const task = await Task.findById(req.params.id);
-    task.hoursCompleted = req.body.hoursCompleted;
-    task.color = req.body.color;
+    task.hoursCompleted = req.body.hoursCompleted || task.hoursCompleted
+    task.color = req.body.color || task.color
     const newTaskResponse = await task.save();
     res.json(newTaskResponse);
   } catch(err) {

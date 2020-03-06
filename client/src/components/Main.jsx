@@ -44,10 +44,7 @@ function Main(props) {
       } else {
         postFetchRequest(
           `/api/tasks/${id}`,
-          {
-            hoursCompleted: newHoursCount,
-            color: selectedTask.color
-          },
+          { hoursCompleted: newHoursCount },
           props.token
         );
       }
@@ -66,10 +63,7 @@ function Main(props) {
     setData(updatedTasks);
     postFetchRequest(
       `/api/tasks/${id}`,
-      {
-        hoursCompleted: updatedTasks[taskIndex].hoursCompleted,
-        color: color
-      },
+      { color: color },
       props.token
     );
   }

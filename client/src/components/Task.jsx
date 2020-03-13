@@ -61,7 +61,7 @@ function Task(props) {
   return (
     <div className="task">
       <div className="task-name-area" onClick={handleClick} >
-        <div className="task-name" style={{backgroundColor: colors[props.color]}} >
+        <div className="task-name" style={{backgroundColor: colors[props.color]}} data-testid="taskName">
           {props.name}
           <span className="icon">
             <i className="fas fa-palette"></i>

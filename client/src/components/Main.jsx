@@ -84,7 +84,7 @@ function Main(props) {
   return(
     <div className="main">
       <header>
-        <span>Track hours</span>
+        <span data-testid="header">Track Hours</span>
       </header>
       <TaskContainer tasks={tasks} />
       <AddTask token={props.token} onClick={handleButtonClick} />

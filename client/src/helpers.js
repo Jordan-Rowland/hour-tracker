@@ -12,6 +12,7 @@ export async function postFetchRequest(url, data, token=null) {
   return response;
 }
 
+
 export async function deleteFetchRequest(url, token) {
   const res = await fetch(
     url, {

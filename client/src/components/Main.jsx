@@ -3,7 +3,6 @@ import "../styles/Main.css";
 import TaskContainer from "./TaskContainer.jsx";
 import Task from "./Task.jsx";
 import AddTask from "./AddTask.jsx";
-import LoadingSpinner from "./LoadingSpinner.jsx";
 import { postFetchRequest, deleteFetchRequest } from "../helpers";
 
 function Main(props) {

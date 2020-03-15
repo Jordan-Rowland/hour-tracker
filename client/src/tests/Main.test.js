@@ -26,7 +26,7 @@ it('should add a task', async () => {
   expect(taskInput).toHaveTextContent("");
   expect(hoursInput).toHaveTextContent("");
 
-
+  expect(queryByText("new test task")).toBeTruthy();
 
   /*
 

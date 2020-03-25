@@ -8,9 +8,9 @@ import { postFetchRequest } from "./helpers";
 
 
 function App() {
-  const [ token, setToken ] = useState("");
-  const [ tokenAcquired, setTokenAcquired ] = useState(null);
-  const [ tokenStorage, setTokenStorage] = useStorage("token");
+  const [token, setToken] = useState("");
+  const [tokenAcquired, setTokenAcquired] = useState(null);
+  const [tokenStorage, setTokenStorage] = useStorage("token");
 
   useEffect(() => {
     async function checkToken() {
@@ -21,6 +21,10 @@ function App() {
         console.log(response);
         if (response.success) {
           handleLogin(tokenStored);
+        } else {
+          console.log("Clearing storage");
+          localStorage.clear();
+          setTokenAcquired(false);
         }
       } else {
         setTokenAcquired(false);
@@ -43,15 +47,18 @@ function App() {
     setTokenAcquired(false);
   }
 
-  return(
+  return (
     <>
-    <Header
-      loggedIn={tokenAcquired}
-      onLogout={handleLogout}
-    />
-      { tokenAcquired && <Main token={token} /> }
-      { tokenAcquired === false && <Login onLogin={handleLogin} /> }
-      { tokenAcquired === null && <LoadingSpinner /> }
+      <Header onLogout={handleLogout} loggedIn={tokenAcquired} />
+      {tokenAcquired && <Main token={token} />}
+      {tokenAcquired === false && <Login onLogin={handleLogin} />}
+      {tokenAcquired === null &&
+        <>
+          <LoadingSpinner />
+          <div className="flex-container">
+            <p className="token-check-p">Checking token... If you aren't logged in shortly, please logout and try again. </p>
+          </div>
+        </>}
     </>
   );
 }

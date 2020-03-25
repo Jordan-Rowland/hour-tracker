@@ -7,22 +7,23 @@ exports.login = async (req, res) => {
   const user = new User(req.body);
   const currentUser = await User.findOne({ email: req.body.email })
   if (currentUser &&
-      bcrypt.compareSync(
-        req.body.password,
-        currentUser.password
-      )
-    ) {
+    bcrypt.compareSync(
+      req.body.password,
+      currentUser.password
+    )
+  ) {
     res.json(
-    { token:
-      // jwt.sign creates and stores data in the token
-      jwt.sign(
-        { _id: currentUser._id },
-        process.env.JWTSECRET,
-        { expiresIn: "7d" }
-      ),
-      success: true,
-      message: "successfully logged in"
-    })
+      {
+        token:
+          // jwt.sign creates and stores data in the token
+          jwt.sign(
+            { _id: currentUser._id },
+            process.env.JWTSECRET,
+            { expiresIn: "7d" }
+          ),
+        success: true,
+        message: "successfully logged in"
+      })
     user.login();
   } else {
     res.json({ success: false, message: "invalid username / password" })
@@ -50,12 +51,13 @@ exports.register = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     newUser.password = bcrypt.hashSync(newUser.password, salt)
     newUser.save().then(newUserResponse => {
-      res.json({ token:
-        jwt.sign(
-          { _id: newUserResponse._id },
-          process.env.JWTSECRET,
-          { expiresIn: "7d" }
-        ),
+      res.json({
+        token:
+          jwt.sign(
+            { _id: newUserResponse._id },
+            process.env.JWTSECRET,
+            { expiresIn: "7d" }
+          ),
         success: true,
         message: "successfully logged in",
         ...newUserResponse
@@ -64,13 +66,17 @@ exports.register = async (req, res) => {
   }
 }
 
-
 exports.verify = async (req, res) => {
   const token = req.body.token
-  const verified = jwt.verify(token, process.env.JWTSECRET)
-  if (verified) {
-    res.json({ success: true, message: "token verified" })
-  } else {
-    res.json({ success: false, message: "could not verify token" })
+  try {
+    const verified = jwt.verify(token, process.env.JWTSECRET);
+    console.log(verified);
+    if (verified) {
+      res.json({ success: true, message: "token verified" });
+    } else {
+      res.json({ success: false, message: "could not verify token" });
+    }
+  } catch (err) {
+    res.json({ success: false, message: "could not verify token" });
   }
 }

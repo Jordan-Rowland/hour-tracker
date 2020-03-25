@@ -4,7 +4,7 @@ import InfoModal from "./InfoModal.jsx";
 
 
 function Header(props) {
-  const [ modalShow, setModalShow ] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   function showModal() {
     setModalShow(true);
@@ -14,18 +14,20 @@ function Header(props) {
     props.onLogout();
   }
 
-  return(
+  return (
     <>
-    <div className="header-nav">
-      <i className="fas fa-poll-h"></i>
-      <div className="links">
-        <ul>
-          <li onClick={showModal}>About</li>
-          { props.loggedIn && <li onClick={handleClick}>Logout</li> }
-        </ul>
+      <div className="header-nav">
+        <i className="fas fa-poll-h"></i>
+        <div className="links">
+          <ul>
+            <li onClick={showModal}>About</li>
+            {props.loggedIn &&
+              <li onClick={handleClick}>Logout</li>
+            }
+          </ul>
+        </div>
       </div>
-    </div>
-    { modalShow && <InfoModal onCloseModal={() => setModalShow(false)} /> }
+      {modalShow && <InfoModal onCloseModal={() => setModalShow(false)} />}
     </>
   );
 }
